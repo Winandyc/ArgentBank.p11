@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const profileSlice = createSlice({
   name: 'user',
 
-  // État initial de la tranche, contenant des champ pour le profil utilisateur
+  // État initial de la tranche, contenant des champs pour le profil utilisateur
   initialState: {
     firstName: '',
     lastName: '',
@@ -28,7 +28,7 @@ const profileSlice = createSlice({
   },
 });
 
-// Exportation des actions 'setProfile' et 'updateUserName' pour les utilisaer dans d'autres parties de l'application
+// Exportation des actions 'setProfile' et 'updateUserName' pour les utiliser dans d'autres parties de l'application
 export const { setProfile, updateUserName } = profileSlice.actions;
 // Exportation du reducteur associé à cette tranche
 export default profileSlice.reducer;

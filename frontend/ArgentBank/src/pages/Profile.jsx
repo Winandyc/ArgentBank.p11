@@ -8,19 +8,20 @@ import '../styles/pages/_profile.scss';
 export default function Profile() {
   // Utilise le hook useDispatch pour obtenir la fonction de dispatch du store Redux
   const dispatch = useDispatch();
-  const [isTokenValidated, setIsTokenValidated] = useState(false);
+  const [_isTokenValidated, setIsTokenValidated] = useState(false);
 
-  useEffect(() => {
-    const authToken = localStorage.getItem('authToken');
-    if (!authToken) {
-      setIsTokenValidated(true); // Marquer la validation du token comme effectuée
-      window.location.href = '/login'; // Rediriger vers la page de connexion si aucun token n'est trouvé
-    } else {
-      setIsTokenValidated(true); // Marquer la validation du token comme effectuée
-      fetchProfileData(authToken); // Appel à la fonction de récupération des données de profil
+  useEffect(() => { // Je déclenche une fonction asynchrone avec useEffect
+    const authToken = localStorage.getItem('authToken'); // Je récupére le token d'authentification à partir du localStorage en utilisant getItem
+
+    if (!authToken) { // Si le token est absent (n'est pas trouvé)
+      window.location.href = '/login'; // Alors, redirection vers la page de connexion
+    } else { // Sinon,
+      setIsTokenValidated(true); // Marque la validation du token comme effectuée (est trouvé)
+      fetchProfileData(authToken); // Dans ce cas : appel à la fonction de récupération des données de profil
     }
   }, []);
 
+   // Seconde vérification d'absence ou non du token, pour pouvoir être directement redirigé sur ma page Login, sans délai
   if (!localStorage.getItem('authToken')) {
     window.location.href = '/login';
     return null;
@@ -42,7 +43,7 @@ export default function Profile() {
       if (response.ok) {
         // La réponse est retournée en format JSON
         const responseData = await response.json();
-        // Dispatch l'action setProfile avec les données de profil récupérées
+        // Fonction DISPATCH : pour envoyer une action (ici, l'action 'setProfile') avec les données de profil récupérées, à mon store Redux.
         dispatch(setProfile(responseData));
         // Affiche dans la console les données de profil
         console.log(responseData);
