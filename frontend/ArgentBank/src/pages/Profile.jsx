@@ -21,10 +21,6 @@ export default function Profile() {
     }
   }, []);
 
-  if (!isTokenValidated) {
-    return null; // Ne rien afficher tant que la validation n'est pas terminée
-  }
-
   if (!localStorage.getItem('authToken')) {
     window.location.href = '/login';
     return null;

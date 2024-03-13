@@ -1,0 +1,16 @@
+.EndPoint :
+- Un endpoint est une URL spécifique à laquelle je peux envoyer une requête pour effectuer une action spécifique sur les ressources de l'API*.
+(* => les ressources de l'API correspondent à, par exemple, une collection d'objets comme : une liste de clients, de produits, de messages...)
+
+.cURL :
+- La commande cURL est un outil en ligne de commande qui permet de transférer des données à l'aide de divers protocoles, y compris HTTP, HTTPS,
+FTP, FTPS, et bien d'autres. Elle est couramment utilisée pour interagir avec des API, effectuer des requêtes HTTP, télécharger ou téléverser des
+fichiers, et tester la connectivité réseau.
+
+____________________________________________________________________________________________________________________________________________________
+
+.Un schéma, c'est quoi ? :
+- Un schéma d'API définit la forme que doivent prendre les données échangées (entre le client qui fait sa requête (= une action effectuée par un
+client pour accéder à des données ou effectuer une opération sur le serveur)) via l'API. Il aide à comprendre quelles données sont nécessaires
+pour chaque requête et ce à quoi ressembleront les réponses. Il facilite également la validation des données pour s'assurer qu'elles sont correctes
+avant d'être utilisées.

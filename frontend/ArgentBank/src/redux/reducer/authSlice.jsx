@@ -16,11 +16,11 @@ const initialState = {
 const authSlice = createSlice({
   // Propriétés statique
   name: 'auth', // Nom du slice
-  initialState, // État initial
+  initialState, // État initial (je reprends ma const plus haut)
   reducers: {
-    // Réducteur qui met à jour l'état pour indiquer une connexion réussi
+    // Réducteur qui met à jour l'état pour indiquer une connexion réussie
     setSignIn(state, action) {
-      state.token = action.payload.token; // Met à jour le token avec la valeur passé dans l'action
+      state.token = action.payload.token; // Met à jour le token avec la valeur passée dans l'action
       state.isAuthenticated = true; // Indique que l'utilisateur est authentifié
     },
     // Réducteur qui met à jour l'état pour indiquer une déconnexion

@@ -34,26 +34,6 @@ paths:
         '500':
           description: Internal Server Error
 
-# Méthode HTTP : POST
-# Route : /auth/login
-# Description : API for Login
-# Paramètres possibles :
-#   - in: body
-#     name: body
-#     description: Login Payload
-#     required: true
-#     schema:
-#       $ref: '#/definitions/Login'
-# Réponses possibles :
-#   - '200':
-#       description: Login Successfully
-#       schema:
-#         $ref: '#/definitions/LoginResponse'
-#   - '400':
-#       description: Invalid Fields
-#   - '500':
-#       description: Internal Server Error
-
   /auth/signup:
     post:
       tags:
@@ -78,26 +58,6 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-
-# Méthode HTTP : POST
-# Route : /auth/signup
-# Description : API for user Signup
-# Paramètres possibles :
-#   - in: body
-#     name: body
-#     description: Signup Payload
-#     required: true
-#     schema:
-#       $ref: '#/definitions/User'
-# Réponses possibles :
-#   - '200':
-#       description: Signup Successfully
-#       schema:
-#         $ref: '#/definitions/ApiResponse'
-#   - '400':
-#       description: Invalid Fields
-#   - '500':
-#       description: Internal Server Error
 
   /user/profile:
     post:
@@ -144,222 +104,120 @@ paths:
         '500':
           description: Internal Server Error
 
-# Méthode HTTP : POST
-# Route : /user/profile
-# Description : API for fetching a user profile
-# Sécurité : Bearer token requis
-# Réponses possibles :
-#   - '200':
-#       description: User profile retrieved successfully
-#       schema:
-#         $ref: '#/definitions/ApiResponse'
-#   - '400':
-#       description: Invalid Fields
-#   - '500':
-#       description: Internal Server Error
-
-# Méthode HTTP : PUT
-# Route : /user/profile
-# Description : API for updating a user profile
-# Sécurité : Bearer token requis
-# Paramètres possibles :
-#   - in: body
-#     name: body
-#     description: Update user profile attributes
-#     required: true
-#     schema:
-#       $ref: '#/definitions/UserProfile'
-# Réponses possibles :
-#   - '200':
-#       description: User profile retrieved successfully
-#       schema:
-#         $ref: '#/definitions/ApiResponse'
-#   - '400':
-#       description: Invalid Fields
-#   - '500':
-#       description: Internal Server Error
-
-
   # Route pour récupérer (get) les transactions du mois en cours.
-  /accounts/{accoutID}/transactions/current:
-    get:
-      security:
-        - Bearer: []
-      tags:
-        - Transactions Module
-      summary: Fetch current month transactions
-      description: Fetch transactions for the current month.
-      parameters:
-        - in: path
-          name: accountID
-          description: Unique account ID
-          required: true
-          type: string
-        # Ajout d'une option de fonctionnalité Triage des transactions par catégorie
-        - in: query
-          name: sortByCategory
-          description: Sort transactions by category (optional)
-          required: false
-          type: boolean
-        - in: query
-          name: category
-          description: Category to filter transactions (optional)
-          required: false
-          type: string
-        - in: query
-          name: startDate
-          description: Start date for filtering transactions (optional)
-          required: false
-          type: string
-        - in: query
-          name: endDate
-          description: End date for filtering transactions (optional)
-          required: false
-          type: string
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Account's transactions fetched successfully for the current month
-          content:
-            application/json:
-              schema:
-                oneof:
-                  $ref: '#/definitions/UserAccountList'
-                  $ref: '#/defintions/SortByCategoryResponse'
-        '400':
-          description: Bad request - Invalid fields
-          examples:
-            application/json:
-              description: Example of a query with invalid fields
-              value:
-                status: 400
-                message: Invalid fields
-        '401':
-          description: Unauthorized - Authentification failed
-          examples:
-            application/json:
-              description: Example of a query with a missing token
-              value:
+/accounts/{accountID}/transactions/current:
+  get:
+    # Utilisation du schéma d'authentification Bearer avec un jeton d'accès vide pour authentifier les utilisateurs
+    security:
+      - Bearer: []
+    # Catégorie à laquelle cet endpoint appartient
+    tags:
+      - Transactions Module
+    # Résumé bref de ce que fait cet endpoint
+    summary: Fetch current month transactions
+    # Description détaillée de l'endpoint
+    description: Fetch transactions for the current month.
+
+    # Paramètres nécessaires pour cette requête
+    parameters:
+      # Le paramètre 'accountID' est extrait de l'URL de la requête (de la section PATH de l'URL)
+      - in: path # La partie de l'URL qui suit le nom de domaine
+        name: accountID
+        description: Unique account ID
+        required: true # 'accountID' est obligatoire dans la requête. Si il n'y est pas, alors la requête échoeura
+        type: string # Valeur attendue : chaîne de caractères
+
+
+      # Je propose d'ajouter une fonctionnalité de "triage" des transactions par catégorie :
+
+      # Le paramètre 'sortByCategory' est extrait de l'URL de la requête (de la chaîne de requête de l'URL (= query))
+      - in: query # La partie de l'URL qui est utilisée pour transmettre des paramètres et leurs valeurs à la requête. Ca se produit après le " ? "
+        name: sortByCategory
+        description: Sort transactions by category (optional)
+        required: false # paramètre facultatif dans la requête
+        type: boolean # Valeur attendue : true ou false
+
+      # Paramètres de requête pour spécifier la catégorie à utiliser comme filtre
+      - in: query
+        name: category
+        description: Category to filter transactions (optional)
+        required: false
+        type: string
+
+      # Paramètres de requête pour spécifier la date de début du filtre
+      - in: query
+        name: startDate
+        description: Start date for filtering transactions (optional)
+        required: false
+        type: string
+
+      # Paramètres de requête pour spécifier la date de fin du filtre
+      - in: query
+        name: endDate
+        description: End date for filtering transactions (optional)
+        required: false
+        type: string
+
+    # Type de contenu de la réponse
+    produces:
+      - application/json # Données renvoyées au format JSON
+
+    # Réponses possibles de l'API
+    responses:
+      '200':
+        description: Account's transactions fetched successfully for the current month  # Données de transactions du compte récupérées avec succès pour le mois actuel
+        content:
+          application/json: # Rendues au format JSON
+            schema: # Indique le schema/model de la réponse
+              oneof: # Sois l'un sois l'autre
+                $ref: '#/definitions/UserAccountList'
+                $ref: '#/defintions/SortByCategoryResponse'
+      '400':
+        description: Bad request - Invalid fields
+        examples:
+          application/json:
+            description: Example of a query with invalid fields
+            value:
+              status: 400
+              message: Invalid fields
+      '401':
+        description: Unauthorized - Authentification failed
+        examples:
+          application/json:
+            description: Example of a query with a missing token
+            value:
               statue: 401
               message: Token is missing from header
-        '404':
-          description: No transaction found for the specified month and account
-          examples:
-            application/json:
-              description: Example of query without a transaction
-              value:
-                status: 404
-                message: No transaction found
-        '500':
-          description: Interval Server Error - Something went wrong
-          examples:
-            application/json:
-              description: Example of query with an internal server error
-              value: 500
-              message: Internal Server Error
+      '404':
+        description: No transaction found for the specified month and account
+        examples:
+          application/json:
+            description: Example of query without a transaction
+            value:
+              status: 404
+              message: No transaction found
+      '500':
+        description: Interval Server Error - Something went wrong
+        examples:
+          application/json:
+            description: Example of query with an internal server error
+            value: 500
+            message: Internal Server Error
 
-      examples:
-        application/json:
-          description: Example of query for sort by category
-          value:
-            sortByCategory: true
-            category: category-name
+    # Exemple de requête pour trier par catégorie
+    examples:
+      application/json:
+        description: Example of query for sort by category
+        value:
+          sortByCategory: true
+          category: category-name
 
-      x-code-samples:
-        - lang: shell
-          label: cURL
-          source: |
-            curl -X GET "http://localhost:3001/api/v2/accounts/{accountID}/transactions/current?sortByCategory=true&category=category-name" -H "Authorization: Bearer <token>"
-
-            # Request URL
-            # http://localhost:3001/api/v2/accounts/{accountID}/transactions/current?sortByCategory=true&category=category-name
-
-# Méthode HTTP : GET
-# Route : /accounts/{accountID}/transactions/current
-# Description : Fetch transactions for the current month
-# Sécurité : Bearer token requis
-# Paramètres possibles :
-#   - in: path
-#     name: accountID
-#     description: Unique account ID
-#     required: true
-#     type: string
-#   - in: query
-#     name: sortByCategory
-#     description: Sort transactions by category (optional)
-#     required: false
-#     type: boolean
-#   - in: query
-#     name: category
-#     description: Category to filter transactions (optional)
-#     required: false
-#     type: string
-#   - in: query
-#     name: startDate
-#     description: Start date for filtering transactions (optional)
-#     required: false
-#     type: string
-#   - in: query
-#     name: endDate
-#     description: End date for filtering transactions (optional)
-#     required: false
-#     type: string
-# Réponses possibles :
-#   - '200':
-#       description: Account's transactions fetched successfully for the current month
-#       content:
-#         application/json:
-#           schema:
-#             oneof:
-#               $ref: '#/definitions/UserAccountList'
-#               $ref: '#/defintions/SortByCategoryResponse'
-#   - '400':
-#       description: Bad request - Invalid fields
-#       examples:
-#         application/json:
-#           description: Example of a query with invalid fields
-#           value:
-#             status: 400
-#             message: Invalid fields
-#   - '401':
-#       description: Unauthorized - Authentification failed
-#       examples:
-#         application/json:
-#           description: Example of a query with a missing token
-#           value:
-#             statue: 401
-#             message: Token is missing from header
-#   - '404':
-#       description: No transaction found for the specified month and account
-#       examples:
-#         application/json:
-#           description: Example of query without a transaction
-#           value:
-#             status: 404
-#             message: No transaction found
-#   - '500':
-#       description: Interval Server Error - Something went wrong
-#       examples:
-#         application/json:
-#           description: Example of query with an internal server error
-#           value:
-#             status: 500
-#             message: Internal Server Error
-# Exemples possibles :
-#   - application/json:
-#       description: Example of query for sort by category
-#       value:
-#         sortByCategory: true
-#         category: category-name
-# Exemples de code :
-#   - lang: shell
-#     label: cURL
-#     source: |
-#       curl -X GET "http://localhost:3001/api/v2/accounts/{accountID}/transactions/current?sortByCategory=true&category=category-name" -H "Authorization: Bearer <token>"
-
-#       # Request URL
-#       # http://localhost:3001/api/v2/accounts/{accountID}/transactions/current?sortByCategory=true&category=category-name
+    # Exemple de requête cURL
+    x-code-samples:
+      - lang: shell
+        label: cURL
+        source: | # Commande cURL (voir 'informations.txt' si besoin) avec l'option -X pour spécifier le type de requête HTPP. Ici, GET
+          curl -X GET "http://localhost:3001/api/v2/accounts/{accountID}/transactions/current?sortByCategory=true&category=category-name" -H "Authorization: Bearer <token>"
 
 
   # Route pour récupérer les détails d'une transaction spécifique et mise à jour des details d'une transaction.
@@ -374,12 +232,12 @@ paths:
     parameters:
       - in: path
         name: accountID
-        description: Unique account ID # ID de compte unique
+        description: Unique account ID
         required: true
         type: string
       - in: path
         name: transactionID
-        description: Unique transaction ID # ID de transaction unique
+        description: Unique transaction ID
         required: true
         type: string
     produces:
@@ -390,34 +248,34 @@ paths:
         schema:
           $ref: '#definitions/Transaction'
       '400':
-        description: Bad request - Invalid fields # Requête incorrecte - Champs invalides
+        description: Bad request - Invalid fields
       '401':
-        description: Unauthorized - Authentification failed # Non autorisé - Échec d'authentification
+        description: Unauthorized - Authentification failed
       '404':
-        description: Transaction or Account not found # Transaction ou compte non trouvé
+        description: Transaction or Account not found
       '500':
-        description: Internal Server Error - Something went wrong # Erreur interne du serveur - Quelque chose s'est mal passé
+        description: Internal Server Error - Something went wrong
   put:
     security:
       - Bearer: [] # Sécurité avec jeton d'authentification
     tags:
-      - Transactions Module # Module Transactions
-    summary: Update details of a specific transaction # Résumé : Mettre à jour les détails d'une transaction spécifique
-    description: Update details of a specific transaction. # Description : Mettre à jour les détails d'une transaction spécifique
+      - Transactions Module
+    summary: Update details of a specific transaction
+    description: Update details of a specific transaction.
     parameters:
       - in: path
         name: accountID
-        description: Unique account ID # ID de compte unique
+        description: Unique account ID
         required: true
         type: string
       - in: path
         name: transactionID
-        description: Unique transaction ID # ID de transaction unique
+        description: Unique transaction ID
         required: true
         type: string
       - in: body
         name: transactionID
-        description: New details for the transaction # Nouveaux détails pour la transaction
+        description: New details for the transaction
         required: true
         schema:
           $ref: '#/definitions/TransactionUpdate'
@@ -429,10 +287,10 @@ paths:
         schema:
           $ref: '#/definitions/ApiResponse'
       '400':
-        description: Bad request - Invalid fields # Requête incorrecte - Champs invalides
+        description: Bad request - Invalid fields
       '401':
-        description: Unauthorized - Authentification failed # Non autorisé - Échec d'authentification
+        description: Unauthorized - Authentification failed
       '404':
-        description: Transaction or Account not found # Transaction ou compte non trouvé
+        description: Transaction or Account not found
       '500':
-        description: Internal Server Error - Something went wrong # Erreur interne du serveur - Quelque chose s'est mal passé
+        description: Internal Server Error - Something went wrong
