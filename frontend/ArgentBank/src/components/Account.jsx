@@ -1,4 +1,5 @@
-// correspond aux 3 comptes bancaires une fois connecté.
+// Correspond aux 3 comptes bancaires une fois connecté.
+// Dans l'ordre : Compte courant - Compte épargne - Carte de crédit
 
 import React from 'react';
 

@@ -7,8 +7,8 @@ import { setSignIn, setSignOut } from '../redux/reducer/authSlice';
 import '../styles/layouts/_header.scss';
 
 export default function Header() {
-  // Utilise le hook useSelector pour extraire la valeur de isAuthenticated depuis le store Redux
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // Utilise le hook useSelector pour extraire la valeur de isAuthentificated depuis le store Redux
+  const isAuthentificated = useSelector((state) => state.auth.isAuthentificated);
 
   // Utilise le hook useDispatch pour obtenir la fonction de dispatch du store Redux
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export default function Header() {
     const token = localStorage.getItem('authToken');
     // Si un token est présent alors
     if (token) {
-      // Utilise dispatch et la fonction setSignin avec le token récupérer pour affirmé une authentification
+      // Utilise dispatch et la fonction setSignin avec le token récupérer pour affirmer une authentification
       dispatch(setSignIn({ token }));
     }
     // Tableau de dépendance vide pour exécuter le useEffect à chaque rendu
@@ -41,12 +41,13 @@ export default function Header() {
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
 
-        {/* Condition pour afficher des liens diffférents en fonction de l'authentification de l'utilisateur */}
-        {isAuthenticated ? (
+        {/* Condition pour afficher des liens différents en fonction de l'authentification de l'utilisateur */}
+        {isAuthentificated ? (
           // Si l'utilisateur est authentifié, affiche des liens vers la page utilisateur et la déconnexion
           <div className="main-nav-ctaItem">
             <Link className="main-nav-item" to="./profile">
               <i className="fa fa-user-circle"></i>
+              {/* Opération ternaire pour vérifier si 'userProfile' existe. Si oui, 'userProfile' est affiché, sinon affiche 'Load'. */}
               {userProfile ? userProfile.userName : 'Load'}
             </Link>
             <Link className="main-nav-item" to="./" onClick={handleSignOut}>

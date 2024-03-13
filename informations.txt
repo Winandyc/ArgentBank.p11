@@ -1,3 +1,13 @@
+.Redux :
+
+- Redux est une bibliothèque JavaScript qui facilite la gestion de l'état global de l'application (de manière prévisible et efficace).
+L'utilisation de Redux est notamment justifiée par sa capacité à centraliser l'état de l'application*.
+
+* c'est-à-dire : à stocker l'ensemble des données de l'application dans un seul endroit, ce qui facilite la gestion et la synchronisation de l'état
+global.
+
+____________________________________________________________________________________________________________________________________________________
+
 .EndPoint :
 - Un endpoint est une URL spécifique à laquelle je peux envoyer une requête pour effectuer une action spécifique sur les ressources de l'API*.
 (* => les ressources de l'API correspondent à, par exemple, une collection d'objets comme : une liste de clients, de produits, de messages...)
@@ -10,7 +20,47 @@ fichiers, et tester la connectivité réseau.
 ____________________________________________________________________________________________________________________________________________________
 
 .Un schéma, c'est quoi ? :
-- Un schéma d'API définit la forme que doivent prendre les données échangées (entre le client qui fait sa requête (= une action effectuée par un
-client pour accéder à des données ou effectuer une opération sur le serveur)) via l'API. Il aide à comprendre quelles données sont nécessaires
-pour chaque requête et ce à quoi ressembleront les réponses. Il facilite également la validation des données pour s'assurer qu'elles sont correctes
-avant d'être utilisées.
+Un schéma d'API définit la forme des données échangées entre le client et le serveur via l'API. Il aide à comprendre quelles données sont nécessaires
+pour chaque requête et à quoi ressembleront les réponses. De plus, il facilite la validation des données pour garantir leur exactitude avant leu
+utilisation.
+____________________________________________________________________________________________________________________________________________________
+
+.Mon fichier YAML v2 :
+
+- Dans ce fichier,
+~ J’ai modifié la version swagger, en l'ajoutant comme dans la documention fournie, la version de la spécification OpenAPI 3.0.3.Puis j'ai modifié la
+version de l’API + le chemin de base.
+
+
+ROUTE 'TRANSACTIONS DU MOIS ACTUEL' :
+~ J’ai ajouté un premier EndPoint pour permettre à l’utilisateur de l’API de récupérer des données, les transactions courantes du mois en cours... En
+ utilisant le verbe GET, tout en respectant la syntaxe RESTful en utilisant ‘accounts/{accountID}’ pour définir le compte de l’utilisateur, et
+ ‘transactions/current’ pour les transactions du du mois actuel.
+
+~ J’ai placé un tag, un descriptif 'summary' et une description de la requête, puis placé des paramètres, pour que la documentation soit le plus claire
+possible pour l’utilisateur.
+Les données seront placées dans l'URL avec le paramètre ‘in: path’. Les paramètres entrés seront requis afin de recevoir les données du mois actuel.
+
+~ Je propose d'ajouter une fonctionnalité qui permettra à l'utilisateur de filtrer par date ou par catégorie ses transactions.
+
+~ J’ai ajouté diffèrents codes de réponses, et placé des schémas de retour de réponses, ce qui permet une communication claire, et aidera les
+développeurs à déboguer plus facilement.
+De plus, j’ai inséré un exemple de données de requête et un exemple d’URL, ce qui peut être utile pour l’utilisateur. Cela contribuera à améliorer
+le temps de compréhension, à effectuer des tests, voir à corriger des erreurs.
+
+
+ROUTE 'DETAILS DUNE TRANSACTION SPECIFIQUE' :
+~ La 2ème route sert à récupérer et mettre à jour, les détails d’une transaction.
+
+L’utilisateur de l’API pourra :
+-Avec le verbe GET, récupérer les détails d’une transaction spécifique.
+-Avec le verbe PUT, mettre à jour les détails d’une transaction comme : ajouter, modifier, ou 'ne pas ajouter de note' (ce qui peut être notifié
+comme supprimer), des informations sur la transaction concernée.
+
+~ J’ai ajouté un tag, un descriptif 'summary', une description, des paramètres, et des différents codes en fonction des réponses.
+
+Enfin, j'ai inséré un schema/model ‘Transaction’, et un autre ‘TransactionUpdate’, pour définir la structure attendue de la réponse de l’API,
+comme pour les transactions du mois actuel, triées par catégorie.
+
+
+Voici mon avis sur les routes concernant les futures fonctionnalités pour les transactions.

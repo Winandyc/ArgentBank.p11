@@ -40,7 +40,7 @@ export default function Profile() {
       });
       // Vérifie si la réponse est ok
       if (response.ok) {
-        // La réponse est retournée en format JSON et est convertie
+        // La réponse est retournée en format JSON
         const responseData = await response.json();
         // Dispatch l'action setProfile avec les données de profil récupérées
         dispatch(setProfile(responseData));

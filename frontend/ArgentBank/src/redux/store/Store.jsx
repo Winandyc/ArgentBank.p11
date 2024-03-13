@@ -10,5 +10,5 @@ const store = configureStore({
   },
 });
 
-// Exportation du store pour être utilisé dans d'autres partie de l'application
+// Exportation du store pour être utilisé dans d'autres parties de l'application
 export default store;

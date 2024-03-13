@@ -1,4 +1,4 @@
-// correspond au formulaire de connexion.
+// Correspond au formulaire de connexion.
 
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';

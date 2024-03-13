@@ -209,7 +209,7 @@ paths:
       application/json:
         description: Example of query for sort by category
         value:
-          sortByCategory: true
+          sortByCategory: true # les données doivent être triées par catégorie
           category: category-name
 
     # Exemple de requête cURL
