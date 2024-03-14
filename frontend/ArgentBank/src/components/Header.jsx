@@ -27,7 +27,7 @@ export default function Header() {
     const token = localStorage.getItem('authToken');
     // Si un token est présent alors
     if (token) {
-      // Utilise dispatch et la fonction setSignin avec le token récupérer pour affirmer une authentification
+      // Utilise dispatch pour l'action setSignin avec le token récupéré, pour affirmer l'authentification
       dispatch(setSignIn({ token }));
     }
     // Tableau de dépendance vide pour exécuter le useEffect à chaque rendu

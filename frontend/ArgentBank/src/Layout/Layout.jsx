@@ -8,7 +8,7 @@ export default function Layout() {
   return (
     <>
       <Header />
-      <Outlet />
+      <Outlet /> {/*  le contenu de mes routes sera rendu entre le Header et le Footer */}
       <Footer />
     </>
   );

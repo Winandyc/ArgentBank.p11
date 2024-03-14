@@ -12,7 +12,7 @@ const initialState = {
   isAuthentificated: false, // Initialise isAuthentificated à false par défaut
 };
 
-// Crée un slice d'authentification avec un nom, un état initial et des réducteurs
+// Créer un slice d'authentification avec un nom, un état initial et des réducteurs
 const authSlice = createSlice({
   name: 'auth', // Nom du slice
   initialState, // État initial (je reprends ma const plus haut)

@@ -17,7 +17,7 @@ Please make sure you have the right versions and download both packages. You can
 # Check Node.js version
 node --version
 
-# Check Mongo version
+# Check Mongo version :     ( MongoDB est une base de données NoSQL qui stocke les données au format JSON-like (BSON). )
 mongo --version
 ```
 
@@ -35,8 +35,6 @@ npm install
 # Start local dev server
 npm run dev:server
 
-# Populate database with two users
-npm run populate-db
 ```
 
 Your server should now be running at http://locahost:3001 and you will now have two users in your MongoDB database!

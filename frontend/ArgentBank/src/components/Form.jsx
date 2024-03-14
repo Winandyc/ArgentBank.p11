@@ -12,13 +12,13 @@ export default function Form() {
   const navigate = useNavigate();
 
   // Stockage des valeurs des champs du formulaire
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(''); // chaine de caractères vide
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Définition de la fonction de soumission du formulaire
+  // Fonction qui gère la soumission du formulaire, qui prend en prop " e " pour event
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // pour éviter le comportement par défaut (ici, le rechargement de la page en appuyant sur un btn de type submit ou sur entrée)
 
     // Création d'un objet 'formData avec les valeurs des champs du formulaire
     const formData = {
@@ -41,12 +41,12 @@ export default function Form() {
         const responseData = await response.json();
         console.log(responseData);
 
-        // Extraction du jeton d'authentification et sauvegarde dans le LocalStorage
+        // Extraction du jeton d'authentification (contenu dans le corps/body de la réponse de la requête à l'API) et sauvegarde dans le LocalStorage
         const token = responseData.body.token;
         localStorage.setItem('authToken', token);
         // Redirection vers la page utilisateur après une connexion réussie
         navigate('/profile');
-        // Envoie de l'action pour indiquer au store authSlice que l'utilisateur est connecté
+        // Envoi de l'action pour indiquer au store Redux que l'utilisateur est connecté
         dispatch(setSignIn({ token }));
       } else {
         // En cas d'erreur, récupération des données d'erreur au format JSON
@@ -69,11 +69,11 @@ export default function Form() {
       <h1>Sign In</h1>
 
       {/* Formulaire avec gestion conditionnelle de l'affichage du message d'erreur */}
-      <form onSubmit={handleSubmit}>
-        {errorMessage && <p className="errorMsg">{errorMessage}</p>}
+      <form onSubmit={handleSubmit}> {/* Formulaire avec une action déclenchée lors de la soumission */}
+        {errorMessage && <p className="errorMsg">{errorMessage}</p>} {/* Affichage du message d'erreur s'il existe */}
         <div className="input-wrapper">
           <label htmlFor="username">Username</label>
-          <input type="text" id="username" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="username" required />
+          <input type="text" id="username" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="username" required /> {/* Si nécessaire, voir plus bas pour le onChange */}
         </div>
         <div className="input-wrapper">
           <label htmlFor="password">Password</label>
@@ -94,6 +94,10 @@ export default function Form() {
           Sign In
         </button>
       </form>
+
     </section>
   );
 }
+
+// 'onChange' est utilisé pour surveiller les changements de contenu dans l'input et pour mettre à jour l'état correspondant (email dans ce cas),
+// en fonction de la saisie de l'utilisateur.
